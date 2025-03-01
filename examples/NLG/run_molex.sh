@@ -1,0 +1,37 @@
+
+CUDA_VISIBLE_DEVICES='0' python -m torch.distributed.launch --master_port 139 --nproc_per_node=1 \
+    --use_env src/gpt2_ft.py \
+    --train_data ./data/e2e/train.jsonl \
+    --valid_data ./data/e2e/valid.jsonl \
+    --train_batch_size 8 \
+    --grad_acc 1 \
+    --valid_batch_size 4 \
+    --seq_len 512 \
+    --model_card gpt2.md \
+    --init_checkpoint ./pretrained_checkpoints/gpt2-medium-pytorch_model.bin \
+    --platform local \
+    --clip 0.0 \
+    --lr 0.0002 \
+    --weight_decay 0.01 \
+    --correct_bias \
+    --adam_beta2 0.999 \
+    --scheduler linear \
+    --warmup_step 500 \
+    --max_epoch 5 \
+    --save_interval 1000 \
+    --lora_dim 4 \
+    --lora_alpha 32 \
+    --lora_dropout 0.1 \
+    --label_smooth 0.1 \
+    --work_dir ./trained_models/GPT2_M/GPT2_M \
+    --random_seed 96 \
+    --use_wandb \
+    --project_name project_name \
+    --job_name job_name \
+    --use_gate \
+    --use_learn_weight 0 \
+    --use_load_balance \
+    --weight_main_init 0.95 \
+    --weight_other_init 0.05 \
+    --g_balance 0.01 \
+    --layers_to_use 12
